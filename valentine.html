@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    text-align: center;
+    z-index: 2;
+  }
+
+  h1 {
+    color: #ff4d6d;
+    margin-bottom: 20px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 12px 28px;
+    margin: 10px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  #yes {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #no {
+    background: #aaa;
+    color: white;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+  }
+
+  .explode {
+    animation: boom 0.4s forwards;
+  }
+
+  @keyframes boom {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+
+  #result {
+    display: none;
+  }
+
+  #result h2 {
+    font-size: 42px;
+    color: #ff4d6d;
+    margin-bottom: 20px;
+  }
+
+  #result img {
+    max-width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+
+  /* 💖 Floating hearts */
+  .heart {
+    position: absolute;
+    color: #ff4d6d;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) scale(0.8);
+      opacity: 0;
+    }
+    10% { opacity: 1; }
+    100% {
+      transform: translateY(-10vh) scale(1.4);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sounds -->
+<audio id="yesSound" src="yes.mp3"></audio>
+<audio id="noSound" src="no.mp3"></audio>
+
+<div class="card" id="question">
+  <h1>Will you be my Valentine? 💘</h1>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No 💔</button>
+</div>
+
+<div class="card" id="result">
+  <h2>YYAAAYY 🎉💞</h2>
+  <img src="image.jpg" alt="YAAAY">
+</div>
+
+<script>
+  const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("no");
+  const question = document.getElementById("question");
+  const result = document.getElementById("result");
+
+  const yesSound = document.getElementById("yesSound");
+  const noSound = document.getElementById("noSound");
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+  }
+
+  setInterval(createHeart, 300);
+
+  noBtn.addEventListener("click", () => {
+    noSound.play();
+    noBtn.classList.add("explode");
+    setTimeout(() => noBtn.remove(), 400);
+  });
+
+  yesBtn.addEventListener("click", () => {
+    yesSound.play();
+    question.style.display = "none";
+    result.style.display = "block";
+
+    for (let i = 0; i < 25; i++) {
+      setTimeout(createHeart, i * 100);
+    }
+  });
+</script>
+
+</body>
+</html>
